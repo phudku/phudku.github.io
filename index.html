@@ -70,6 +70,8 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .rules{list-style:none;margin:0;padding:0;display:grid;gap:6px;text-align:left;font-size:16px;line-height:1.4}
 .rules li{display:grid;grid-template-columns:26px 1fr;gap:6px}
 .card h1 .tm{font-size:.32em;vertical-align:top;margin-left:2px;-webkit-text-fill-color:#2ebf5a;font-family:var(--body)}
+.card .inst{font-family:inherit;font-weight:800;font-size:17px;color:#fff;border:0;border-radius:999px;padding:9px 20px 7px;background:linear-gradient(180deg,#3aa0ff,#1f5fe0);box-shadow:0 3px 0 #133f9e;cursor:pointer}
+.card .insthelp{font-size:14px;color:#333;background:#fff6c8;border-radius:12px;padding:6px 10px;line-height:1.4}
 .card .fb{font-weight:700;font-size:15px;color:#fff;text-decoration:none;border:0;border-radius:999px;padding:6px 16px 4px;background:linear-gradient(180deg,#2ee06a,#12a84a);box-shadow:0 3px 0 #0b7a34}
 .card .credit{margin:2px 0 -6px;font-size:13px;color:#6a8a7c;font-weight:600;letter-spacing:.02em}
 .rules li:nth-child(1) b{color:#ff3d6e}.rules li:nth-child(2) b{color:#ff8a1f}.rules li:nth-child(3) b{color:#1fa4ff}
@@ -109,6 +111,8 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
       </ul>
       <button class="btn" id="startBtn">चलो फुदकें!</button>
       <a class="fb" id="fbLink" href="https://wa.me/919319632666?text=%E0%A4%AB%E0%A5%81%E0%A4%A6%E0%A4%95%E0%A5%82%20%E0%A4%AA%E0%A4%B0%20%E0%A4%AE%E0%A5%87%E0%A4%B0%E0%A4%BE%20%E0%A4%B8%E0%A5%81%E0%A4%9D%E0%A4%BE%E0%A4%B5%3A%20" target="_blank" rel="noopener" onclick="return openFb(this.href)">💬 अपना सुझाव भेजें</a>
+      <button class="inst" id="instBtn" hidden>📲 फ़ोन में लगाएँ</button>
+      <div class="insthelp" id="instHelp" hidden>Chrome में ऊपर <b>⋮</b> दबाएँ → <b>"Add to Home screen"</b> या <b>"ऐप इंस्टॉल करें"</b></div>
       <p class="credit">रचनाकार: Dr. Arun Sharma</p>
     </div>
   </div>
@@ -576,7 +580,7 @@ function drawFrog(x,y,sq,mood,legs,R,blink,L){L=L||0;
   ctx.fillStyle='rgba(255,255,255,.45)';ctx.beginPath();ctx.ellipse(-bw*.45,-bh*.9,R*.22,R*.1,-.5,0,7);ctx.fill();
   if(L>=4){ctx.fillStyle='#ffd21f';ctx.beginPath();ctx.arc(-bw*.5,-bh*.4,R*.06,0,7);ctx.arc(-bw*.5,-bh*.2,R*.06,0,7);ctx.fill()}
   // spots
-  ctx.fillStyle='#9b30ff';ctx.beginPath();ctx.arc(-bw*.55,-bh*.75,R*.12,0,7);ctx.arc(bw*.6,-bh*.65,R*.1,0,7);ctx.arc(-bw*.2,-bh*1.0,R*.07,0,7);ctx.arc(bw*.78,-bh*.4,R*.07,0,7);ctx.fill();
+  ctx.fillStyle='#9b30ff';[[-bw*.55,-bh*.75,.12],[bw*.6,-bh*.65,.1],[-bw*.2,-bh*1.0,.07],[bw*.78,-bh*.4,.07]].forEach(([a,c,r])=>{ctx.beginPath();ctx.arc(a,c,R*r,0,7);ctx.fill()});
   // front feet
   ctx.fillStyle='#ff7000';[-1,1].forEach(d=>{ctx.beginPath();ctx.ellipse(d*bw*.38,-R*.04,R*.2,R*.1,0,0,7);ctx.fill()});
   // eyes
@@ -989,6 +993,12 @@ setTimeout(()=>$('startBtn').focus(),100);
 })();
 </script>
 
+<script>(function(){var dp=null,b=document.getElementById('instBtn'),h=document.getElementById('instHelp');
+var standalone=window.matchMedia&&matchMedia('(display-mode: standalone),(display-mode: fullscreen)').matches;
+if(standalone||!/Android/i.test(navigator.userAgent))return;b.hidden=false;
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();dp=e});
+b.addEventListener('click',function(){if(dp){dp.prompt();dp.userChoice.then(function(r){if(r.outcome==='accepted'){b.hidden=true;h.hidden=true}});dp=null}else{h.hidden=false}});
+window.addEventListener('appinstalled',function(){b.hidden=true;h.hidden=true});})();</script>
 <script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}</script>
 </body>
 </html>
