@@ -395,7 +395,7 @@ function wah(t0,f){
 let hiVoice=null;
 function findVoice(){try{const vs=speechSynthesis.getVoices();hiVoice=vs.find(v=>/^hi[-_]IN/i.test(v.lang))||vs.find(v=>/^hi/i.test(v.lang))||null}catch(e){}}
 try{if(window.speechSynthesis){findVoice();speechSynthesis.addEventListener('voiceschanged',findVoice)}}catch(e){}
-function say(t){if(muted||sqHush>0)return;try{const ss=window.speechSynthesis;if(!ss)return;if(!hiVoice)findVoice();const u=new SpeechSynthesisUtterance(t);u.lang='hi-IN';if(hiVoice)u.voice=hiVoice;u.pitch=1.5;u.rate=1.05;u.volume=1;ss.cancel();ss.speak(u)}catch(e){}}
+function say(t){if(muted||sqHush>0)return;try{const ss=window.speechSynthesis;if(!ss)return;if(!hiVoice)findVoice();const u=new SpeechSynthesisUtterance(t);u.lang='hi-IN';if(hiVoice)u.voice=hiVoice;u.pitch=1;u.rate=1.05;u.volume=1;ss.cancel();ss.speak(u)}catch(e){}}
 function sfx(k,v){
   if(!ac||muted)return;if(sqHush>0&&k!=='yikes')return;const t=ac.currentTime+.01;
   if(k==='boing')glide(260+v*40,420+v*120,t,.25,.05);
@@ -403,9 +403,9 @@ function sfx(k,v){
   else if(k==='perfect'){const b=MEL[melIdx%MEL.length];melIdx++;[0,2,4].forEach((d,i)=>pluck(hz(b+d,1),t+i*.09,.11,1.3))}
   else if(k==='splash'){noise(t,.45,.1,1100);glide(180,90,t,.25,.09);for(let i=0;i<6;i++){const st=t+.12+i*.08+Math.random()*.05,f=rnd(380,620);glide(f,f*2.3,st,.07,.06)}melIdx=0}
   else if(k==='cheer'){const b=MEL[melIdx%MEL.length];melIdx++;
-    wah(t,hz(b,0));
-    [0,2,4,7].forEach((d,i)=>pluck(hz(b+d,1),t+.55+i*.07,.09,1.2));
-    for(let i=0;i<4;i++)pluck(hz(7+Math.floor(Math.random()*5),2),t+.85+i*.06,.025,.6);
+    pluck(hz(b+4,2),t,.1,1.4);pluck(hz(b+7,2),t+.12,.1,1.6);
+    [0,2,4,7].forEach((d,i)=>pluck(hz(b+d,1),t+.3+i*.07,.08,1.2));
+    for(let i=0;i<4;i++)pluck(hz(7+Math.floor(Math.random()*5),2),t+.6+i*.06,.025,.6);
     say(cheerWord);
   }
   else if(k==='magic'){[4,5,7,9,10].forEach((d,i)=>pluck(hz(d,1),t+i*.06,.07,1))}
