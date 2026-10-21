@@ -34,7 +34,8 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 #app:has(#startOv:not([hidden])) #stage canvas{filter:saturate(1.35) contrast(1.07)}
 .hud .scorebox,.hud .lbl,.hud .rec,.hud .hearts,.hud .right,.hud .val{transition:all .5s ease}
 #app.hudmin .scorebox{background:transparent;box-shadow:none}
-#app.hudmin .lbl,#app.hudmin .rec,#app.hudmin .hearts{opacity:0;max-height:0;overflow:hidden;margin:0}
+#app.hudmin .lbl,#app.hudmin .rec .bar,#app.hudmin .hearts{opacity:0;max-height:0;overflow:hidden;margin:0}
+#app.hudmin .rec{margin-top:-2px}#app.hudmin #recTxt{color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6);font-size:13px}
 #app.hudmin .val{color:#fff;text-shadow:0 2px 3px rgba(0,0,0,.45)}
 #app.hudmin .right{opacity:.35}
 .hud{position:absolute;top:8px;left:0;right:0;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));pointer-events:none;z-index:3}
@@ -73,6 +74,10 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .card .inst{font-family:inherit;font-weight:800;font-size:17px;color:#fff;border:0;border-radius:999px;padding:9px 20px 7px;background:linear-gradient(180deg,#3aa0ff,#1f5fe0);box-shadow:0 3px 0 #133f9e;cursor:pointer}
 .card .insthelp{font-size:14px;color:#333;background:#fff6c8;border-radius:12px;padding:6px 10px;line-height:1.4}
 .card .fb{font-weight:700;font-size:15px;color:#fff;text-decoration:none;border:0;border-radius:999px;padding:6px 16px 4px;background:linear-gradient(180deg,#2ee06a,#12a84a);box-shadow:0 3px 0 #0b7a34}
+.langsw{display:flex;gap:0;border-radius:999px;background:#eef3f0;padding:3px;box-shadow:inset 0 1px 2px #0002;margin-bottom:-4px}
+.langsw button{font:700 14px var(--body);border:0;background:transparent;color:#4c6b5e;padding:5px 14px 4px;border-radius:999px;cursor:pointer}
+.langsw button.on{background:linear-gradient(180deg,#8a5cff,#5a2fd8);color:#fff;box-shadow:0 2px 0 #3a1fa0}
+.card .bestline{font-weight:700;font-size:16px;color:#d0347a;margin:-2px 0 -4px}
 .card .credit{margin:2px 0 -6px;font-size:13px;color:#6a8a7c;font-weight:600;letter-spacing:.02em}
 .rules li:nth-child(1) b{color:#ff3d6e}.rules li:nth-child(2) b{color:#ff8a1f}.rules li:nth-child(3) b{color:#1fa4ff}
 .rules b{font-family:var(--display);color:var(--leaf);font-size:19px;line-height:1.2}
@@ -92,28 +97,30 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 <div id="app">
   <div id="stage"><canvas id="cv"></canvas></div>
   <div class="hud">
-    <div class="scorebox" id="sb"><div class="chip"><span class="lbl">अंक</span><span class="val" id="score">0</span><span class="combo" id="combo" hidden>×2</span><div class="hearts" id="hearts" aria-label="बची सुनहरी मछलियाँ"></div></div><div class="rec" id="rec" hidden><span class="bar"><i id="recFill"></i></span><span id="recTxt"></span></div></div>
+    <div class="scorebox" id="sb"><div class="chip"><span class="lbl" data-t="score">अंक</span><span class="val" id="score">0</span><span class="combo" id="combo" hidden>×2</span><div class="hearts" id="hearts" aria-label="बची सुनहरी मछलियाँ"></div></div><div class="rec" id="rec" hidden><span class="bar"><i id="recFill"></i></span><span id="recTxt"></span></div></div>
     <div class="right">
       <b id="best" hidden>0</b>
       <button class="mute" id="fs" aria-label="पूरी स्क्रीन" hidden><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><button class="mute" id="mute" aria-label="आवाज़ बंद या चालू">ध्वनि</button>
     </div>
   </div>
-  <div class="hint" id="hint">दबाकर रखो… और छोड़ दो!</div>
+  <div class="hint" id="hint" data-t="hint">दबाकर रखो… और छोड़ दो!</div>
 
   <div class="overlay" id="startOv">
     <div class="card">
+      <div class="langsw" role="group" aria-label="भाषा / Language"><button type="button" data-l="hi">हिंदी</button><button type="button" data-l="en">English</button></div>
       <canvas id="logo" width="240" height="280" aria-hidden="true"></canvas>
-      <h1>फुदकू<sup class="tm">™</sup></h1><p style="margin-top:-6px;font-size:15px;color:#4c6b5e;font-weight:600">टर्रू की छलाँग</p>
+      <h1><span data-t="name">फुदकू</span><sup class="tm">™</sup></h1><p style="margin-top:-6px;font-size:15px;color:#4c6b5e;font-weight:600" data-t="sub">फुदक-फुदक, टर्र-टर्र!</p>
       <ul class="rules">
-        <li><b>१</b><span>स्क्रीन दबाकर रखो।</span></li>
-        <li><b>२</b><span>उंगली छोड़ो।</span></li>
-        <li><b>३</b><span>टर्रू को अगले पत्ते पर उतारो।</span></li>
+        <li><b data-t="n1">१</b><span data-t="r1">स्क्रीन दबाकर रखो।</span></li>
+        <li><b data-t="n2">२</b><span data-t="r2">उंगली छोड़ो।</span></li>
+        <li><b data-t="n3">३</b><span data-t="r3">फुदकू को अगले पत्ते पर उतारो।</span></li>
       </ul>
-      <button class="btn" id="startBtn">चलो फुदकें!</button>
-      <a class="fb" id="fbLink" href="https://wa.me/919319632666?text=%E0%A4%AB%E0%A5%81%E0%A4%A6%E0%A4%95%E0%A5%82%20%E0%A4%AA%E0%A4%B0%20%E0%A4%AE%E0%A5%87%E0%A4%B0%E0%A4%BE%20%E0%A4%B8%E0%A5%81%E0%A4%9D%E0%A4%BE%E0%A4%B5%3A%20" target="_blank" rel="noopener" onclick="return openFb(this.href)">💬 अपना सुझाव भेजें</a>
-      <button class="inst" id="instBtn" hidden>📲 फ़ोन में लगाएँ</button>
-      <div class="insthelp" id="instHelp" hidden>Chrome में ऊपर <b>⋮</b> दबाएँ → <b>"Add to Home screen"</b> या <b>"ऐप इंस्टॉल करें"</b></div>
-      <p class="credit">रचनाकार: Dr. Arun Sharma</p>
+      <p class="bestline" id="bestLine" hidden></p>
+      <button class="btn" id="startBtn" data-t="start">चलो फुदकें!</button>
+      <a class="fb" id="fbLink" href="https://wa.me/919319632666?text=%E0%A4%AB%E0%A5%81%E0%A4%A6%E0%A4%95%E0%A5%82%20%E0%A4%AA%E0%A4%B0%20%E0%A4%AE%E0%A5%87%E0%A4%B0%E0%A4%BE%20%E0%A4%B8%E0%A5%81%E0%A4%9D%E0%A4%BE%E0%A4%B5%3A%20" target="_blank" rel="noopener" onclick="return openFb(this.href)" data-t="fb">💬 अपना सुझाव भेजें</a>
+      <button class="inst" id="instBtn" hidden data-t="inst">📲 फ़ोन में लगाएँ</button>
+      <div class="insthelp" id="instHelp" hidden data-th="insthelp">Chrome में ऊपर <b>⋮</b> दबाएँ → <b>"Add to Home screen"</b> या <b>"ऐप इंस्टॉल करें"</b></div>
+      <p class="credit" data-t="credit">रचनाकार: अरुण शर्मा</p>
     </div>
   </div>
 
@@ -182,7 +189,17 @@ const parts=[],ripples=[],deco=[];
 let hinted=store('frog_hinted')==='1',eyeK=1,eyePop=0,padsN=0,peek=[],peekCD=2,practice=parseInt(store('frog_practice')||'0',10)||0,missRow=0,helpJ=0,flies=[],bflies=[],fish=null,swim=[],cheerT=0,sadT=0,cheerWord='वाह!',cheerPts=0,birds=[],outfit=0,good=0;
 const CLOUDS=[{x0:.05,y:.13,sz:1.1,v:16,par:.05,c:'#ffd6ec'},{x0:.55,y:.22,sz:.8,v:-18,par:.03,c:'#e2d6ff'},{x0:.32,y:.36,sz:.65,v:-12,par:.02,c:'#fff0b8'},{x0:.8,y:.09,sz:.75,v:10,par:.04,c:'#cdeeff'},{x0:.95,y:.3,sz:1,v:-14,par:.03,c:'#ffffff'},{x0:.18,y:.5,sz:.55,v:20,par:.06,c:'#ffd8c4'},{x0:.66,y:.44,sz:.7,v:13,par:.05,c:'#d6ffe4'}];
 const BIRDS=[{b:'#2ee05a',w:'#14a83c',k:'#ff3d3d',t:'#1fb4ff'},{b:'#1fb4ff',w:'#0d7fd0',k:'#222222',t:'#0d7fd0',bl:'#ff8a1f'},{b:'#ff6fb0',w:'#ff2e8a',k:'#ffb21f',t:'#ff2e8a'},{b:'#ffd21f',w:'#ff8a1f',k:'#ff6a1f',t:'#ff8a1f'},{b:'#ffffff',w:'#c8d8ff',k:'#ff8a1f',t:'#c8d8ff'}];
-const SP={red:{c0:'#ffb0b0',c1:'#e8283c',g:'255,60,80',pts:50,name:'लाल पत्ता'},blue:{c0:'#b0e8ff',c1:'#1f74e8',g:'60,160,255',pts:100,name:'नीला पत्ता'},gold:{c0:'#fff27a',c1:'#f0a000',g:'255,215,40',pts:500,name:'सुनहरा पत्ता'}};
+let SP_last=0;let LANG=(store('frog_lang')==='en')?'en':'hi';
+const TX={hi:{score:'अंक',hint:'दबाकर रखो… और छोड़ दो!',name:'फुदकू',sub:'फुदक-फुदक, टर्र-टर्र!',n1:'१',n2:'२',n3:'३',r1:'स्क्रीन दबाकर रखो।',r2:'उंगली छोड़ो।',r3:'फुदकू को अगले पत्ते पर उतारो।',start:'चलो फुदकें!',fb:'💬 अपना सुझाव भेजें',inst:'📲 फ़ोन में लगाएँ',insthelp:'Chrome में ऊपर <b>⋮</b> दबाएँ → <b>"Add to Home screen"</b> या <b>"ऐप इंस्टॉल करें"</b>',credit:'रचनाकार: अरुण शर्मा',best:'🏆 आपका रिकॉर्ड: ',recNew:'नया रिकॉर्ड बन रहा है!',recNear:n=>'बस '+n+' और!',newRec:'नया रिकॉर्ड!',sayNewRec:'शाबाश! नया रिकॉर्ड!',fish:'+1 सुनहरी मछली!',past:n=>n+' पार!',red:'लाल पत्ता',blue:'नीला पत्ता',gold:'सुनहरा पत्ता',cheer:['वाह!','शाबाश!','कमाल!','बहुत बढ़िया!'],two:'दो पत्ते एक साथ!',splash:'छपाक!',pts:'अंक',short:n=>'रिकॉर्ड से बस '+n+' पीछे!',again:'फिर से…',flag:'रिकॉर्ड',saved:'बच गए!',fishSaved:'सुनहरी मछली ने बचाया! बचीं: ',friends:'दोस्तों ने बचा लिया',croak:'टर्र!',perfect:'परफ़ेक्ट +',hold:'यहाँ दबाकर रखो',wow500:'+500 वाह!',fw1:'वाह!',fw2:'शाबाश!',fo1:'ओह!',fo2:'फिर से!',quack:'क्वैक!',sayWow:'वाह!',voice:'hi-IN'},
+ en:{score:'Score',hint:'Hold… and let go!',name:'Phudku',sub:'Hop hop, croak croak!',n1:'1',n2:'2',n3:'3',r1:'Press and hold the screen.',r2:'Let go.',r3:'Land Phudku on the next leaf.',start:"Let's Hop!",fb:'💬 Send a suggestion',inst:'📲 Add to phone',insthelp:'In Chrome tap <b>⋮</b> at the top → <b>"Add to Home screen"</b> or <b>"Install app"</b>',credit:'Created by Arun Sharma',best:'🏆 Your best: ',recNew:'New record!',recNear:n=>'Just '+n+' more!',newRec:'New record!',sayNewRec:'Well done! New record!',fish:'+1 goldfish!',past:n=>n+' crossed!',red:'Red leaf',blue:'Blue leaf',gold:'Golden leaf',cheer:['Wow!','Well done!','Amazing!','Super!'],two:'Two leaves at once!',splash:'Splash!',pts:'points',short:n=>'Only '+n+' short of your best!',again:'Again…',flag:'Best',saved:'Saved!',fishSaved:'A goldfish saved you! Left: ',friends:'Friends saved you',croak:'Ribbit!',perfect:'Perfect +',hold:'Hold here',wow500:'+500 Wow!',fw1:'Wow!',fw2:'Yay!',fo1:'Oops!',fo2:'Again!',quack:'Quack!',sayWow:'Wow!',voice:'en-IN'}};
+function T(k){return TX[LANG][k]}
+function applyLang(){document.documentElement.lang=LANG;
+  document.querySelectorAll('[data-t]').forEach(e=>{const v=T(e.getAttribute('data-t'));if(typeof v==='string')e.textContent=v});
+  document.querySelectorAll('[data-th]').forEach(e=>{e.innerHTML=T(e.getAttribute('data-th'))});
+  document.querySelectorAll('.langsw button').forEach(b=>b.classList.toggle('on',b.dataset.l===LANG));
+  const bl=$('bestLine');if(bl){const b=parseInt(store('frog_best')||'0',10)||0;bl.hidden=!(b>0);bl.textContent=T('best')+b}
+  hiVoice=null;try{findVoice()}catch(e){}}
+const SP={red:{c0:'#ffb0b0',c1:'#e8283c',g:'255,60,80',pts:50,name:'red'},blue:{c0:'#b0e8ff',c1:'#1f74e8',g:'60,160,255',pts:100,name:'blue'},gold:{c0:'#fff27a',c1:'#f0a000',g:'255,215,40',pts:500,name:'gold'}};
 const FISH='<svg viewBox="0 0 28 20" aria-hidden="true"><path d="M2 3 L9 10 L2 17 Q4 10 2 3Z" fill="currentColor"/><ellipse cx="15" cy="10" rx="10" ry="6.5" fill="currentColor"/><path d="M12 4 Q15 0 19 4Z" fill="currentColor"/><ellipse cx="13" cy="8" rx="5" ry="2" fill="#fff" opacity=".35"/><circle cx="20.5" cy="8.5" r="1.6" fill="#222"/><circle cx="21" cy="8" r=".5" fill="#fff"/></svg>';
 const DUCKC=[{b:'#ffd21f',w:'#ffb21f',h:'#ffd21f'},{b:'#ffffff',w:'#e3e8f2',h:'#ffffff'},{b:'#c9a27a',w:'#8a6a4a',h:'#1f9a5a'},{b:'#b8865a',w:'#8a5a32',h:'#b8865a'},{b:'#ffffff',w:'#c8d0e0',h:'#ffffff',bk:'#ff5a2e'}];
 const BABYC=[{b:'#ffe84d',w:'#ffd21f',h:'#ffe84d'},{b:'#e0c08a',w:'#b8925f',h:'#e0c08a'},{b:'#fff3a8',w:'#ffe06a',h:'#fff3a8'}];
@@ -222,14 +239,14 @@ function hud(){
   $('score').textContent=score;
   if(bestAtStart>0&&state!=='start'){$('rec').hidden=false;
     $('recFill').style.width=Math.min(100,score/bestAtStart*100)+'%';
-    $('recTxt').textContent=recordBroken?'नया रिकॉर्ड बन रहा है!':(bestAtStart-score<=bestAtStart*.2&&score>0?'बस '+(bestAtStart-score)+' और!':'🏆 '+bestAtStart);
-    if(!recordBroken&&score>bestAtStart){recordBroken=true;showHud(4);setTimeout(()=>{pop('नया रिकॉर्ड!<small>'+score+'</small>');sfx('magic');say('शाबाश! नया रिकॉर्ड!')},400);
+    $('recTxt').textContent=recordBroken?T('recNew'):(bestAtStart-score<=bestAtStart*.2&&score>0?T('recNear')(bestAtStart-score):'🏆 '+bestAtStart);
+    if(!recordBroken&&score>bestAtStart){recordBroken=true;showHud(4);setTimeout(()=>{pop(T('newRec')+'<small>'+score+'</small>');sfx('magic');say(T('sayNewRec'))},400);
       for(let i=0;i<70;i++)parts.push({k:'conf',x:camX+rnd(0,W),y:rnd(-80,-5),vx:rnd(-40,40)*s,vy:rnd(40,160)*s,life:rnd(2,3),c:FLOWERS[i%FLOWERS.length],rot:rnd(0,6),vr:rnd(-8,8)})}
   }else $('rec').hidden=true;
   if(score>best){best=score;store('frog_best',String(best));store('frog_bestpads',String(padsN));$('best').textContent=best}
-  const hk=Math.floor(score/500);if(hk>lastH){lastH=hk;if(lives<3&&state!=='start'){lives++;gainH=true;setTimeout(()=>{pop('+1 सुनहरी मछली!');sfx('magic')},1300)}}
+  const hk=Math.floor(score/500);if(hk>lastH){lastH=hk;if(lives<3&&state!=='start'){lives++;gainH=true;setTimeout(()=>{pop(T('fish'));sfx('magic')},1300)}}
   const hs=$('hearts');if(hs){hs.innerHTML=[0,1,2].map(i=>'<span class="'+(i<lives?'':'off')+(gainH&&i===lives-1?' pulse':'')+'">'+FISH+'</span>').join('');gainH=false}
-  const k=Math.floor(score/1000);if(k>lastK){lastK=k;showHud(2.5);if(!(recordBroken&&score-bestAtStart<300))setTimeout(()=>pop(k*1000+' पार!'),900)}
+  const k=Math.floor(score/1000);if(k>lastK){lastK=k;showHud(2.5);if(!(recordBroken&&score-bestAtStart<300))setTimeout(()=>pop(T('past')(k*1000)),900)}
   const m=streak>=2?Math.min(4,streak):1;const c=$('combo');c.hidden=m<2;c.textContent='×'+m;
 }
 function pop(html){const d=document.createElement('div');d.className='pop';d.innerHTML=html;$('app').appendChild(d);setTimeout(()=>d.remove(),950)}
@@ -308,17 +325,17 @@ function land(){
   score+=adv*mult*10;padsN+=adv;if(perfect)perfects++;
   cur=hit;ensurePads();
   good++;missRow=0;practice++;store('frog_practice',String(practice));
-  if(p.sp){showHud(3);eyePop=1;if(p.sp==='gold'){hrDance=3.4;setTimeout(()=>sfx('dance'),250)}const S=SP[p.sp];p.sp=null;score+=S.pts;window._spT=performance.now();sfx('coin',S.pts);say(S.pts>=500?'वाह! पाँच सौ!':S.pts>=100?'वाह! सौ!':'वाह! पचास!');setTimeout(()=>{pop(S.name+'!<small>+'+S.pts+'</small>');sfx('magic')},perfect?700:250);
+  if(p.sp){showHud(3);eyePop=1;if(p.sp==='gold'){hrDance=3.4;setTimeout(()=>sfx('dance'),250)}const S=SP[p.sp];p.sp=null;score+=S.pts;SP_last=S.pts;const tot=adv*mult*10+S.pts;window._spT=performance.now();sfx('coin',S.pts);say(T('sayWow')+' '+tot);setTimeout(()=>{pop(T(S.name)+'!<small>+'+tot+'</small>');sfx('magic')},perfect?700:250);
     if(S.pts>=500)for(let i=0;i<60;i++)parts.push({k:'conf',x:lx+rnd(-10,10)*s,y:waterY-40*s,vx:rnd(-200,200)*s,vy:rnd(-420,-180)*s,life:rnd(1.6,2.4),c:i%2?'#ffd21f':'#fff27a',rot:rnd(0,6),vr:rnd(-10,10)})}
   if(OUTFITS_ON&&good%3===0&&outfit<OUT.length){outfit++;const nm=OUT[outfit-1];setTimeout(()=>{pop('नया: '+nm+'!');sfx('magic')},perfect?1100:450);
     for(let i=0;i<18;i++){const a=i/18*6.28;parts.push({k:'spark',x:padX(p),y:waterY-30*s,vx:Math.cos(a)*130*s,vy:Math.sin(a)*130*s-40*s,life:.9})}}
   frog.mood=perfect?'star':'happy';frog.moodT=0.9;state='idle';eyePop=Math.max(eyePop,perfect?1:.6);
   if(perfect){
-    cheerWord=['वाह!','शाबाश!','कमाल!','बहुत बढ़िया!'][Math.floor(Math.random()*4)];cheerPts=adv*mult*10;sfx('cheer');cheerT=1.4;
+    cheerWord=T('cheer')[Math.floor(Math.random()*4)];const spNow=window._spT&&performance.now()-window._spT<300;cheerPts=adv*mult*10+(spNow?SP_last:0);sfx('cheer');if(!spNow)say(cheerWord+' '+cheerPts);cheerT=1.4;
     for(let i=0;i<50;i++)parts.push({k:'conf',x:lx+rnd(-10,10)*s,y:waterY-40*s,vx:rnd(-170,170)*s,vy:rnd(-380,-160)*s,life:rnd(1.4,2.2),c:FLOWERS[i%FLOWERS.length],rot:rnd(0,6),vr:rnd(-10,10)});
     for(let i=0;i<14;i++){const a=i/14*6.28;parts.push({k:'spark',x:lx,y:waterY-20*s,vx:Math.cos(a)*140*s,vy:Math.sin(a)*140*s-60*s,life:.7})}
   }else{
-    sfx('plop');if(adv>1)pop('दो पत्ते एक साथ!');
+    sfx('plop');if(adv>1)pop(T('two'));
   }
   if(score>0&&score%15===0||(score>0&&Math.floor((score-adv*mult)/15)<Math.floor(score/15))){/* milestone */}
   hud();
@@ -327,7 +344,7 @@ function gameOver(){
   if(shield){shield=false;store('frog_shield1','0')}
   const old=document.querySelector('.banner');if(old)old.remove();
   const b=document.createElement('div');b.className='banner';const gap=bestAtStart-score;
-  b.innerHTML='छपाक! '+score+' अंक'+(recordBroken?'<small>नया रिकॉर्ड!</small>':(bestAtStart>0&&gap>0&&gap<=bestAtStart*.3?'<small>रिकॉर्ड से बस '+gap+' पीछे!</small>':'<small>फिर से…</small>'));
+  b.innerHTML=T('splash')+' '+score+' '+T('pts')+(recordBroken?'<small>'+T('newRec')+'</small>':(bestAtStart>0&&gap>0&&gap<=bestAtStart*.3?'<small>'+T('short')(gap)+'</small>':'<small>'+T('again')+'</small>'));
   $('app').appendChild(b);setTimeout(()=>b.remove(),2600);
   reset();state='idle';stateT=0;frog.mood='happy';frog.moodT=.8;sfx('ribbit');hud();idleT=1.6;
 }
@@ -350,6 +367,7 @@ try{const de=document.documentElement;if(document.fullscreenEnabled&&de.requestF
   fb.onclick=async()=>{try{if(document.fullscreenElement){await document.exitFullscreen()}else{await de.requestFullscreen({navigationUI:'hide'});try{await screen.orientation.lock('landscape')}catch(e){}}}catch(e){fb.hidden=true}};
   document.addEventListener('fullscreenchange',()=>{fb.innerHTML=document.fullscreenElement?'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>':'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>';setTimeout(resize,150)})}}catch(e){}
 $('sb').style.pointerEvents='auto';$('sb').addEventListener('pointerdown',e=>{e.stopPropagation();showHud(4)});
+document.querySelectorAll('.langsw button').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();LANG=b.dataset.l;store('frog_lang',LANG);applyLang()}));setTimeout(applyLang,0);
 $('startBtn').onclick=startGame;$('againBtn').onclick=startGame;
 $('mute').onclick=()=>{muted=!muted;store('frog_muted',muted?'1':'0');muteIcon();if(master)master.gain.setTargetAtTime(muted?0:.9,ac.currentTime,.05)};
 
@@ -397,9 +415,10 @@ function wah(t0,f){
   o.start(t0);vib.start(t0);o.stop(t0+.7);vib.stop(t0+.7);
 }
 let hiVoice=null;
-function findVoice(){try{const vs=speechSynthesis.getVoices();hiVoice=vs.find(v=>/^hi[-_]IN/i.test(v.lang))||vs.find(v=>/^hi/i.test(v.lang))||null}catch(e){}}
+function findVoice(){try{const vs=speechSynthesis.getVoices(),pre=LANG==='en'?'en':'hi',good=/natural|neural|online|google|swara|madhur|heera|neerja|prabhat|ravi|kalpana|hemant/i,ok=vs.filter(v=>v.lang&&v.lang.toLowerCase().startsWith(pre)),inn=ok.filter(v=>/IN$/i.test(v.lang.replace('_','-')));hiVoice=inn.find(v=>good.test(v.name))||ok.find(v=>good.test(v.name))||inn[0]||ok[0]||null}catch(e){}}
+try{speechSynthesis.onvoiceschanged=()=>{hiVoice=null;findVoice()}}catch(e){}
 try{if(window.speechSynthesis){findVoice();speechSynthesis.addEventListener('voiceschanged',findVoice)}}catch(e){}
-function say(t){if(muted||sqHush>0)return;try{const ss=window.speechSynthesis;if(!ss)return;if(!hiVoice)findVoice();const u=new SpeechSynthesisUtterance(t);u.lang='hi-IN';if(hiVoice)u.voice=hiVoice;u.pitch=1;u.rate=1.05;u.volume=1;ss.cancel();ss.speak(u)}catch(e){}}
+function say(t){if(muted||sqHush>0)return;try{const ss=window.speechSynthesis;if(!ss)return;if(!hiVoice)findVoice();const u=new SpeechSynthesisUtterance(t);u.lang=T('voice');if(hiVoice&&!/Android/i.test(navigator.userAgent))u.voice=hiVoice;u.pitch=1.05;u.rate=1;u.volume=1;if(ss.speaking||ss.pending){ss.cancel();setTimeout(()=>ss.speak(u),80)}else ss.speak(u)}catch(e){}}
 function sfx(k,v){
   if(!ac||muted)return;if(sqHush>0&&k!=='yikes')return;const t=ac.currentTime+.01;
   if(k==='boing')glide(260+v*40,420+v*120,t,.25,.05);
@@ -410,8 +429,7 @@ function sfx(k,v){
     pluck(hz(b+4,2),t,.1,1.4);pluck(hz(b+7,2),t+.12,.1,1.6);
     [0,2,4,7].forEach((d,i)=>pluck(hz(b+d,1),t+.3+i*.07,.08,1.2));
     for(let i=0;i<4;i++)pluck(hz(7+Math.floor(Math.random()*5),2),t+.6+i*.06,.025,.6);
-    if(!(window._spT&&performance.now()-window._spT<600))say(cheerWord);
-  }
+      }
   else if(k==='coin'){const n=v>=500?5:v>=100?2:1;for(let i=0;i<n;i++){pluck(1568,t+i*.09,.07,.5);pluck(2093,t+i*.09+.045,.06,.6)}}
   else if(k==='magic'){[4,5,7,9,10].forEach((d,i)=>pluck(hz(d,1),t+i*.06,.07,1))}
   else if(k==='croak'){[0,.2].forEach((d,i)=>{const o=ac.createOscillator(),am=ac.createOscillator(),amg=ac.createGain(),lp=ac.createBiquadFilter(),g=ac.createGain(),st=t+d,f=i?165:150;
@@ -546,7 +564,7 @@ function drawPad(p,i){
     ctx.fillStyle='#ffd21f';ctx.beginPath();ctx.ellipse(fx,fy-r*.15,r*.28,r*.14,0,0,7);ctx.fill()}
   if(i===flagIdx&&flagIdx>0&&!recordBroken){const fx=-p.r*.7,fy=-2*s,wv=Math.sin(clock*5);ctx.strokeStyle='#7a4a1f';ctx.lineWidth=2.4*s;ctx.beginPath();ctx.moveTo(fx,fy);ctx.lineTo(fx,fy-46*s);ctx.stroke();
     ctx.fillStyle='#ff2e4d';ctx.beginPath();ctx.moveTo(fx,fy-46*s);ctx.quadraticCurveTo(fx+22*s,fy-48*s+wv*3*s,fx+44*s,fy-42*s+wv*4*s);ctx.lineTo(fx+44*s,fy-28*s+wv*4*s);ctx.quadraticCurveTo(fx+22*s,fy-34*s+wv*3*s,fx,fy-30*s);ctx.closePath();ctx.fill();
-    ctx.fillStyle='#fff';ctx.font='800 '+Math.round(10*s)+'px "Baloo 2","Mukta",sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('रिकॉर्ड',fx+21*s,fy-37*s+wv*3*s);
+    ctx.fillStyle='#fff';ctx.font='800 '+Math.round(10*s)+'px "Baloo 2","Mukta",sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(T('flag'),fx+21*s,fy-37*s+wv*3*s);
     ctx.fillStyle='#ffd21f';ctx.beginPath();ctx.arc(fx,fy-47*s,2.6*s,0,7);ctx.fill()}
   if(p.bug){const bx=-p.r*.55,by=-1*s;ctx.fillStyle='#222';ctx.beginPath();ctx.arc(bx-5*s,by,2.6*s,0,7);ctx.fill();ctx.fillStyle='#ff2e2e';ctx.beginPath();ctx.ellipse(bx,by,5*s,3.6*s,0,0,7);ctx.fill();ctx.strokeStyle='#222';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(bx-4*s,by);ctx.lineTo(bx+5*s,by);ctx.stroke();ctx.fillStyle='#222';[[-1.5,-1.5],[2,1.2],[1.5,-1.6],[-1.5,1.4]].forEach(([a,b])=>{ctx.beginPath();ctx.arc(bx+a*s,by+b*s,.9*s,0,7);ctx.fill()})}
   ctx.restore();
@@ -632,7 +650,7 @@ function update(dt){
     if(frog.moodT>0){frog.moodT-=dt;if(frog.moodT<=0&&!charging)frog.mood='idle'}
   }else if(state==='fallen'){
     if(rescuing&&stateT>1){rescuing=false;sadT=0;state='idle';frog.mood='happy';frog.moodT=1.2;frog.padOff=0;eyePop=1;cheerT=0;
-      pop('बच गए!<small>'+(lostHeart?'सुनहरी मछली ने बचाया! बचीं: '+lives:'दोस्तों ने बचा लिया')+'</small>');sfx('magic');ripples.push({x:padX(pads[cur]),r:pads[cur].r*.8,life:1})}
+      pop(T('saved')+'<small>'+(lostHeart?T('fishSaved')+lives:T('friends'))+'</small>');sfx('magic');ripples.push({x:padX(pads[cur]),r:pads[cur].r*.8,life:1})}
     else if(!rescuing&&stateT>1.4)gameOver()}
   frog.blink-=dt;if(frog.blink<-.12)frog.blink=rnd(2,4.5);
   // camera follows frog
@@ -719,7 +737,7 @@ function draw(){
     if(state!=='fly'){ctx.fillStyle='#0003';ctx.beginPath();ctx.ellipse(fx,waterY+1,R*.9,R*.2,0,0,7);ctx.fill()}
     const legs=state==='fly'?Math.sin(Math.min(1,frog.fly?frog.fly.t/frog.fly.T:1)*Math.PI):0;
     drawFrog(fx,waterY+frog.y-(state==='fly'?0:2*s),frog.squash,frog.mood,legs,R,frog.blink<0&&frog.mood==='idle',outfit);
-    if(croakT>0&&state==='idle'&&!charging)drawSac(fx,waterY+frog.y-2*s,R,1-croakT/.42,'टर्र!');
+    if(croakT>0&&state==='idle'&&!charging)drawSac(fx,waterY+frog.y-2*s,R,1-croakT/.42,T('croak'));
   }
   bflies.forEach(b=>{const x=b.x-camX,f=Math.abs(Math.sin(clock*14+b.ph));ctx.fillStyle=b.c;
     ctx.beginPath();ctx.ellipse(x-2*s*f,b.y-1.8*s,2.7*s*f+.6,2.1*s,-.5,0,7);ctx.ellipse(x+2*s*f,b.y-1.8*s,2.7*s*f+.6,2.1*s,.5,0,7);ctx.ellipse(x-1.4*s*f,b.y+.6*s,1.8*s*f+.5,1.4*s,.4,0,7);ctx.ellipse(x+1.4*s*f,b.y+.6*s,1.8*s*f+.5,1.4*s,-.4,0,7);ctx.fill();
@@ -731,7 +749,7 @@ function draw(){
     ctx.fillStyle=fish.c;ctx.beginPath();ctx.ellipse(0,0,11*s,5.5*s,0,0,7);ctx.fill();ctx.beginPath();ctx.moveTo(-9*s,0);ctx.lineTo(-17*s,-6*s);ctx.lineTo(-17*s,6*s);ctx.closePath();ctx.fill();
     ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(6*s,-1.5*s,1.8*s,0,7);ctx.fill();ctx.restore()}
   if(state!=='fallen'&&(cheerT>0||(sadT>0))){}
-  if(cheerT>0&&state!=='fallen'){const k=Math.min(1,(1.4-cheerT)*6),bob=Math.sin(clock*6)*2*s;ctx.save();ctx.translate(fx,waterY+frog.y-62*s+bob);ctx.scale(k,k);bubble(0,0,'परफ़ेक्ट +'+cheerPts,'#d0347a');ctx.restore()}
+  if(cheerT>0&&state!=='fallen'){const k=Math.min(1,(1.4-cheerT)*6),bob=Math.sin(clock*6)*2*s;ctx.save();ctx.translate(fx,waterY+frog.y-62*s+bob);ctx.scale(k,k);bubble(0,0,T('perfect')+cheerPts,'#d0347a');ctx.restore()}
   drawFriends();drawHerons();
   drawDeco(P,true);
   // particles
@@ -825,7 +843,7 @@ function drawSpotAt(x,y,label){
   ctx.fillStyle=charging?'#1f8a3a':'rgba(31,138,58,.75)';
   ctx.beginPath();ctx.ellipse(x,y+4*s,7*s,5.5*s,0,0,7);ctx.fill();
   [[-8,-5],[-3,-10],[3,-10],[8,-5]].forEach(([a,b])=>{ctx.beginPath();ctx.arc(x+a*s,y+b*s,2.6*s,0,7);ctx.fill()});
-  if(label&&!hinted&&!charging){ctx.font='800 '+Math.round(13*s)+'px "Baloo 2","Mukta",sans-serif';ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillStyle='#fff';ctx.strokeStyle='rgba(0,0,0,.35)';ctx.lineWidth=3*s;ctx.strokeText('यहाँ दबाकर रखो',x,y-r-6*s);ctx.fillText('यहाँ दबाकर रखो',x,y-r-6*s)}
+  if(label&&!hinted&&!charging){ctx.font='800 '+Math.round(13*s)+'px "Baloo 2","Mukta",sans-serif';ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillStyle='#fff';ctx.strokeStyle='rgba(0,0,0,.35)';ctx.lineWidth=3*s;ctx.strokeText(T('hold'),x,y-r-6*s);ctx.fillText(T('hold'),x,y-r-6*s)}
 }
 function duckAt(x,y,sc,t,o){ // o:{dip,quack,blink,cheer,sad}
   const k=sc*s,hb=Math.sin(t*5)*1.6*k,dip=o.dip||0;
@@ -903,7 +921,7 @@ function drawHeron(hr,hi){
   ctx.restore();
   if(dz){ctx.save();ctx.font='800 '+Math.round(16*k)+'px "Baloo 2",sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
     for(let j=0;j<3;j++){const ph=(clock*.8+j/3)%1;ctx.globalAlpha=1-ph;ctx.fillStyle=['#ff3d6e','#1fa4ff','#ffb21f'][j];ctx.fillText(j%2?'♫':'♪',X+(j-1)*22*k+Math.sin(clock*3+j)*6*k,Y-70*k-ph*40*k)}
-    ctx.globalAlpha=1;if(!hi){const sc=1+Math.sin(clock*10)*.06;ctx.translate(X+14*k,Y-96*k);ctx.scale(sc,sc);bubble(0,0,'+500 वाह!','#e08a00')}ctx.restore()}
+    ctx.globalAlpha=1;if(!hi){const sc=1+Math.sin(clock*10)*.06;ctx.translate(X+14*k,Y-96*k);ctx.scale(sc,sc);bubble(0,0,T('wow500'),'#e08a00')}ctx.restore()}
 }
 function drawFriends(){
   const hop=k=>cheerT>0?Math.abs(Math.sin((1.4-cheerT)*9+k))*16*s:Math.sin(clock*2+k)*1.5*s;
@@ -912,9 +930,9 @@ function drawFriends(){
   ctx.save();ctx.translate(dx,0);ctx.scale(-1,1);
   duckAt(0,dy,1.05,clock,{quack:cheerT>0||((clock*.27)%1)<.08,blink:(clock%3.3)<.12,cheer:cheerT>0,sad:sadT>0});ctx.restore();
   turtleAt(tx,ty,s,clock+2,{blink:((clock+1.3)%4)<.13,sad:sadT>0});
-  if(cheerT>0){bubble(dx+4*s,dy-26*s,'वाह!','#d0347a');bubble(tx-8*s,ty-18*s,'शाबाश!','#1f8a3a')}
-  else if(sadT>0){bubble(dx+4*s,dy-26*s,'ओह!','#2a7fc4');bubble(tx-8*s,ty-18*s,'फिर से!','#2a7fc4')}
-  else if(((clock*.27)%1)<.08)bubble(dx+4*s,dy-26*s,'क्वैक!','#e08a00');
+  if(cheerT>0){bubble(dx+4*s,dy-26*s,T('fw1'),'#d0347a');bubble(tx-8*s,ty-18*s,T('fw2'),'#1f8a3a')}
+  else if(sadT>0){bubble(dx+4*s,dy-26*s,T('fo1'),'#2a7fc4');bubble(tx-8*s,ty-18*s,T('fo2'),'#2a7fc4')}
+  else if(((clock*.27)%1)<.08)bubble(dx+4*s,dy-26*s,T('quack'),'#e08a00');
 }
 function drawBirds(P){
   birds.forEach(b=>{const T=b.t,k=b.sc*s,f=Math.sin(clock*13+b.ph);ctx.save();ctx.translate(b.x-camX,b.y);ctx.scale(b.d,1);
@@ -980,7 +998,7 @@ function drawLogo(dt){
   else if(t<1.05){sq=.4*Math.sin((t-.9)/.15*Math.PI)}
   l.fillStyle='rgba(0,60,40,.18)';l.beginPath();l.ellipse(gx,gy+2,R*(1-(gy-y)/220),R*.2,0,0,7);l.fill();
   drawFrog(gx,y,sq,mood,legs,R,false,0);
-  [[1.25,0],[1.85,1]].forEach(([c,i])=>{const u=(t-c)/.4;if(u>=0&&u<=1){drawSac(gx,y,R,u,'टर्र!');if(!logoCroak[i]){logoCroak[i]=true;sfx('croak')}}else if(t<c)logoCroak[i]=false});
+  [[1.25,0],[1.85,1]].forEach(([c,i])=>{const u=(t-c)/.4;if(u>=0&&u<=1){drawSac(gx,y,R,u,T('croak'));if(!logoCroak[i]){logoCroak[i]=true;sfx('croak')}}else if(t<c)logoCroak[i]=false});
   ctxSwap(real);
 }
 let ctxRef=ctx;function ctxSwap(c){ctx=c}
