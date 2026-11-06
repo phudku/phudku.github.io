@@ -78,6 +78,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .langsw button{font:700 14px var(--body);border:0;background:transparent;color:#4c6b5e;padding:5px 14px 4px;border-radius:999px;cursor:pointer}
 .langsw button.on{background:linear-gradient(180deg,#8a5cff,#5a2fd8);color:#fff;box-shadow:0 2px 0 #3a1fa0}
 .card .bestline{font-weight:700;font-size:16px;color:#d0347a;margin:-2px 0 -4px}
+.card .privlink{font-size:12px;color:#8aa59a;margin-top:-8px}
 .card .credit{margin:2px 0 -6px;font-size:13px;color:#6a8a7c;font-weight:600;letter-spacing:.02em}
 .rules li:nth-child(1) b{color:#ff3d6e}.rules li:nth-child(2) b{color:#ff8a1f}.rules li:nth-child(3) b{color:#1fa4ff}
 .rules b{font-family:var(--display);color:var(--leaf);font-size:19px;line-height:1.2}
@@ -122,6 +123,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
       <button class="inst" id="instBtn" hidden data-t="inst">📲 फ़ोन में लगाएँ</button>
       <div class="insthelp" id="instHelp" hidden data-th="insthelp">Chrome में ऊपर <b>⋮</b> दबाएँ → <b>"Add to Home screen"</b> या <b>"ऐप इंस्टॉल करें"</b></div>
       <p class="credit" data-t="credit">रचनाकार: अरुण शर्मा</p>
+      <a class="privlink" href="privacy.html" data-t="priv">निजता नीति</a>
     </div>
   </div>
 
@@ -191,8 +193,8 @@ let hinted=store('frog_hinted')==='1',eyeK=1,eyePop=0,padsN=0,peek=[],peekCD=2,p
 const CLOUDS=[{x0:.05,y:.13,sz:1.1,v:16,par:.05,c:'#ffd6ec'},{x0:.55,y:.22,sz:.8,v:-18,par:.03,c:'#e2d6ff'},{x0:.32,y:.36,sz:.65,v:-12,par:.02,c:'#fff0b8'},{x0:.8,y:.09,sz:.75,v:10,par:.04,c:'#cdeeff'},{x0:.95,y:.3,sz:1,v:-14,par:.03,c:'#ffffff'},{x0:.18,y:.5,sz:.55,v:20,par:.06,c:'#ffd8c4'},{x0:.66,y:.44,sz:.7,v:13,par:.05,c:'#d6ffe4'}];
 const BIRDS=[{b:'#2ee05a',w:'#14a83c',k:'#ff3d3d',t:'#1fb4ff'},{b:'#1fb4ff',w:'#0d7fd0',k:'#222222',t:'#0d7fd0',bl:'#ff8a1f'},{b:'#ff6fb0',w:'#ff2e8a',k:'#ffb21f',t:'#ff2e8a'},{b:'#ffd21f',w:'#ff8a1f',k:'#ff6a1f',t:'#ff8a1f'},{b:'#ffffff',w:'#c8d8ff',k:'#ff8a1f',t:'#c8d8ff'}];
 let SP_last=0,goldRow=0,rbDance=0;let LANG=(store('frog_lang')==='en')?'en':'hi';
-const TX={hi:{score:'अंक',hint:'दबाकर रखो… और छोड़ दो!',name:'फुदकू',sub:'फुदक-फुदक, टर्र-टर्र!',n1:'१',n2:'२',n3:'३',r1:'स्क्रीन दबाकर रखो।',r2:'उंगली छोड़ो।',r3:'फुदकू को अगले पत्ते पर उतारो।',start:'चलो फुदकें!',fb:'💬 अपना सुझाव भेजें',inst:'📲 फ़ोन में लगाएँ',insthelp:'Chrome में ऊपर <b>⋮</b> दबाएँ → <b>"Add to Home screen"</b> या <b>"ऐप इंस्टॉल करें"</b>',credit:'रचनाकार: अरुण शर्मा · v8',best:'🏆 आपका रिकॉर्ड: ',recNew:'नया रिकॉर्ड बन रहा है!',recNear:n=>'बस '+n+' और!',newRec:'नया रिकॉर्ड!',sayNewRec:'शाबाश! नया रिकॉर्ड!',fish:'+1 सुनहरी मछली!',past:n=>n+' पार!',red:'लाल पत्ता',blue:'नीला पत्ता',gold:'सुनहरा पत्ता',cheer:['वाह!','शाबाश!','कमाल!','बहुत बढ़िया!'],two:'दो पत्ते एक साथ!',splash:'छपाक!',pts:'अंक',short:n=>'रिकॉर्ड से बस '+n+' पीछे!',again:'फिर से…',flag:'रिकॉर्ड',saved:'बच गए!',fishSaved:'सुनहरी मछली ने बचाया! बचीं: ',friends:'दोस्तों ने बचा लिया',croak:'टर्र!',perfect:'परफ़ेक्ट +',hold:'यहाँ दबाकर रखो',wow500:'+500 वाह!',fw1:'वाह!',fw2:'शाबाश!',fo1:'ओह!',fo2:'फिर से!',quack:'क्वैक!',sayWow:'वाह!',voice:'hi-IN',shareTxt:b=>'मैं फुदकू खेल रहा हूँ 🐸'+(b>0?' मेरा रिकॉर्ड '+b+' है, तुम हराकर दिखाओ!':' तुम भी खेलो!')+' ',dbl:'डबल सुनहरा!',dblSmall:'+500 और +100 बोनस',sayDbl:'कमाल! डबल सुनहरा! ग्यारह सौ!',copied:'लिंक कॉपी हो गया!'},
- en:{score:'Score',hint:'Hold… and let go!',name:'Phudku',sub:'Hop hop, croak croak!',n1:'1',n2:'2',n3:'3',r1:'Press and hold the screen.',r2:'Let go.',r3:'Land Phudku on the next leaf.',start:"Let's Hop!",fb:'💬 Send a suggestion',inst:'📲 Add to phone',insthelp:'In Chrome tap <b>⋮</b> at the top → <b>"Add to Home screen"</b> or <b>"Install app"</b>',credit:'Created by Arun Sharma · v8',best:'🏆 Your best: ',recNew:'New record!',recNear:n=>'Just '+n+' more!',newRec:'New record!',sayNewRec:'Well done! New record!',fish:'+1 goldfish!',past:n=>n+' crossed!',red:'Red leaf',blue:'Blue leaf',gold:'Golden leaf',cheer:['Wow!','Well done!','Amazing!','Super!'],two:'Two leaves at once!',splash:'Splash!',pts:'points',short:n=>'Only '+n+' short of your best!',again:'Again…',flag:'Best',saved:'Saved!',fishSaved:'A goldfish saved you! Left: ',friends:'Friends saved you',croak:'Ribbit!',perfect:'Perfect +',hold:'Hold here',wow500:'+500 Wow!',fw1:'Wow!',fw2:'Yay!',fo1:'Oops!',fo2:'Again!',quack:'Quack!',sayWow:'Wow!',voice:'en-IN',shareTxt:b=>"I'm playing Phudku 🐸"+(b>0?' My best is '+b+' — can you beat it?':' Come play!')+' ',dbl:'Double gold!',dblSmall:'+500 and +100 bonus',sayDbl:'Amazing! Double gold! Eleven hundred!',copied:'Link copied!'}};
+const TX={hi:{score:'अंक',hint:'दबाकर रखो… और छोड़ दो!',name:'फुदकू',sub:'फुदक-फुदक, टर्र-टर्र!',n1:'१',n2:'२',n3:'३',r1:'स्क्रीन दबाकर रखो।',r2:'उंगली छोड़ो।',r3:'फुदकू को अगले पत्ते पर उतारो।',start:'चलो फुदकें!',fb:'💬 अपना सुझाव भेजें',inst:'📲 फ़ोन में लगाएँ',insthelp:'Chrome में ऊपर <b>⋮</b> दबाएँ → <b>"Add to Home screen"</b> या <b>"ऐप इंस्टॉल करें"</b>',credit:'रचनाकार: अरुण शर्मा · v9',priv:'निजता नीति',best:'🏆 आपका रिकॉर्ड: ',recNew:'नया रिकॉर्ड बन रहा है!',recNear:n=>'बस '+n+' और!',newRec:'नया रिकॉर्ड!',sayNewRec:'शाबाश! नया रिकॉर्ड!',fish:'+1 सुनहरी मछली!',past:n=>n+' पार!',red:'लाल पत्ता',blue:'नीला पत्ता',gold:'सुनहरा पत्ता',cheer:['वाह!','शाबाश!','कमाल!','बहुत बढ़िया!'],two:'दो पत्ते एक साथ!',splash:'छपाक!',pts:'अंक',short:n=>'रिकॉर्ड से बस '+n+' पीछे!',again:'फिर से…',flag:'रिकॉर्ड',saved:'बच गए!',fishSaved:'सुनहरी मछली ने बचाया! बचीं: ',friends:'दोस्तों ने बचा लिया',croak:'टर्र!',perfect:'परफ़ेक्ट +',hold:'यहाँ दबाकर रखो',wow500:'+500 वाह!',fw1:'वाह!',fw2:'शाबाश!',fo1:'ओह!',fo2:'फिर से!',quack:'क्वैक!',sayWow:'वाह!',voice:'hi-IN',shareTxt:b=>'मैं फुदकू खेल रहा हूँ 🐸'+(b>0?' मेरा रिकॉर्ड '+b+' है, तुम हराकर दिखाओ!':' तुम भी खेलो!')+' ',dbl:'डबल सुनहरा!',dblSmall:'+500 और +100 बोनस',sayDbl:'कमाल! डबल सुनहरा! ग्यारह सौ!',copied:'लिंक कॉपी हो गया!'},
+ en:{score:'Score',hint:'Hold… and let go!',name:'Phudku',sub:'Hop hop, croak croak!',n1:'1',n2:'2',n3:'3',r1:'Press and hold the screen.',r2:'Let go.',r3:'Land Phudku on the next leaf.',start:"Let's Hop!",fb:'💬 Send a suggestion',inst:'📲 Add to phone',insthelp:'In Chrome tap <b>⋮</b> at the top → <b>"Add to Home screen"</b> or <b>"Install app"</b>',credit:'Created by Arun Sharma · v9',priv:'Privacy policy',best:'🏆 Your best: ',recNew:'New record!',recNear:n=>'Just '+n+' more!',newRec:'New record!',sayNewRec:'Well done! New record!',fish:'+1 goldfish!',past:n=>n+' crossed!',red:'Red leaf',blue:'Blue leaf',gold:'Golden leaf',cheer:['Wow!','Well done!','Amazing!','Super!'],two:'Two leaves at once!',splash:'Splash!',pts:'points',short:n=>'Only '+n+' short of your best!',again:'Again…',flag:'Best',saved:'Saved!',fishSaved:'A goldfish saved you! Left: ',friends:'Friends saved you',croak:'Ribbit!',perfect:'Perfect +',hold:'Hold here',wow500:'+500 Wow!',fw1:'Wow!',fw2:'Yay!',fo1:'Oops!',fo2:'Again!',quack:'Quack!',sayWow:'Wow!',voice:'en-IN',shareTxt:b=>"I'm playing Phudku 🐸"+(b>0?' My best is '+b+' — can you beat it?':' Come play!')+' ',dbl:'Double gold!',dblSmall:'+500 and +100 bonus',sayDbl:'Amazing! Double gold! Eleven hundred!',copied:'Link copied!'}};
 function T(k){return TX[LANG][k]}
 function numW(n){if(LANG!=='en')return String(n);const o=['','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'],t=['','','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'];const u=x=>x<20?o[x]:t[Math.floor(x/10)]+(x%10?' '+o[x%10]:'');if(n<100)return u(n);const h=Math.floor(n/100),r=n%100;return o[h]+' hundred'+(r?' and '+u(r):'')}
 function applyLang(){document.documentElement.lang=LANG;
@@ -313,7 +315,7 @@ function land(){
     for(let i=0;i<22;i++)parts.push({k:'drop',x:lx,y:waterY,vx:rnd(-120,120)*s,vy:rnd(-320,-120)*s,life:1});
     ripples.push({x:lx,r:4,life:1.4},{x:lx,r:0,life:1.8});
     if(shield&&score<1000){rescuing=true;lostHeart=false}else if(lives>1){lives--;rescuing=true;lostHeart=true;hud()}
-    showHud(3.5);sfx('splash');sadT=1.3;missRow++;if(missRow>=2){helpJ=3;missRow=0}try{navigator.vibrate&&navigator.vibrate(140)}catch(e){}
+    showHud(3.5);sfx('splash');sadT=1.3;missRow++;if(missRow>=2){helpJ=3;missRow=0}
     return;
   }
   const p=pads[hit];const adv=hit-cur;p.dip=1;
@@ -363,7 +365,7 @@ function up(){if(charging&&state==='idle'){if(charge<0.05){charging=false;frog.m
 stage.addEventListener('pointerdown',e=>{down(e);try{stage.setPointerCapture(e.pointerId)}catch(_){}});
 stage.addEventListener('pointermove',e=>{if(!charging||aimX0==null)return;const dx=e.clientX-aimX0;if(dx<-14){aimDir=-1}else if(dx>-6){aimDir=1}});
 stage.addEventListener('pointerup',up);stage.addEventListener('pointercancel',up);
-stage.addEventListener('contextmenu',e=>e.preventDefault());
+stage.addEventListener('contextmenu',e=>e.preventDefault());stage.addEventListener('touchstart',e=>{if(e.cancelable)e.preventDefault()},{passive:false});
 window.addEventListener('keydown',e=>{if(e.code==='Space'&&!e.repeat&&state==='idle'){e.preventDefault();down()}});
 window.addEventListener('keyup',e=>{if(e.code==='Space')up()});
 document.addEventListener('visibilitychange',()=>{if(ac){document.hidden?ac.suspend():ac.resume()}if(document.hidden&&charging){charging=false;charge=0;frog.mood='idle'}});
@@ -440,8 +442,8 @@ function sfx(k,v){
   else if(k==='croak'){[0,.2].forEach((d,i)=>{const o=ac.createOscillator(),am=ac.createOscillator(),amg=ac.createGain(),lp=ac.createBiquadFilter(),g=ac.createGain(),st=t+d,f=i?165:150;
       o.type='sawtooth';o.frequency.setValueAtTime(f,st);o.frequency.linearRampToValueAtTime(f*.78,st+.16);
       am.frequency.value=34;amg.gain.value=.5;am.connect(amg);
-      lp.type='lowpass';lp.frequency.value=950;lp.Q.value=3;
-      g.gain.setValueAtTime(0,st);g.gain.linearRampToValueAtTime(.09,st+.02);g.gain.exponentialRampToValueAtTime(.001,st+.18);
+      lp.type='lowpass';lp.frequency.value=1500;lp.Q.value=3;
+      g.gain.setValueAtTime(0,st);g.gain.linearRampToValueAtTime(.17,st+.02);g.gain.exponentialRampToValueAtTime(.001,st+.2);
       const vca=ac.createGain();vca.gain.value=.5;amg.connect(vca.gain);
       o.connect(lp);lp.connect(vca);vca.connect(g);g.connect(master);o.start(st);am.start(st);o.stop(st+.2);am.stop(st+.2)})}
   else if(k==='squeak'){glide(1500,2300,t,.07,.035);glide(1600,2500,t+.1,.07,.03)}
@@ -659,9 +661,9 @@ function update(dt){
     else if(!rescuing&&stateT>1.4)gameOver()}
   frog.blink-=dt;if(frog.blink<-.12)frog.blink=rnd(2,4.5);
   // camera follows frog
-  if(state!=='start'){const minC=frog.x-frogX0,maxC=Math.max(minC,frog.x-W*.1);
+  if(state!=='start'){const minC=frog.x-frogX0,maxC=Math.max(minC,frog.x-W*.18);
     if(state==='idle'&&!charging)camFlow+=24*s*gapK()*dt;
-    if(state==='idle'&&!charging&&ihT<=0&&camFlow>=maxC-1&&pads[cur+1]){const a=pads[cur],b=pads[cur+1];frog.fly={sx:padX(a),sy:waterY,tx:padX(b),t:0,T:.55,h:45*s,pw:.4,auto:1};frog.mood='fly';state='fly';sfx('boing',.3)}camFlow=Math.min(Math.max(camFlow,minC),maxC);
+    camFlow=Math.min(Math.max(camFlow,minC),maxC);
     camX+=(camFlow-camX)*Math.min(1,dt*(state==='fly'?3:4))}
   else{camTarget=frog.x-frogX0;camX+=(camTarget-camX)*Math.min(1,dt*(state==='fly'?3:5));camFlow=camX}
   // fireflies at night
