@@ -1,15 +1,19 @@
 {
+  "id": "/",
   "name": "फुदकू – Phudku",
   "short_name": "फुदकू",
-  "start_url": "./",
-  "scope": "./",
+  "description": "एक उंगली का मज़ेदार मेंढक खेल – पत्तों पर फुदको और अपना रिकॉर्ड तोड़ो! A one-finger frog game for kids and families.",
+  "start_url": "/",
+  "scope": "/",
   "display": "fullscreen",
   "orientation": "any",
   "background_color": "#3a2fd8",
   "theme_color": "#3a2fd8",
   "lang": "hi",
+  "categories": ["games", "kids", "entertainment"],
   "icons": [
     {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
-    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
   ]
 }
