@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.phudku.game",
+    "sha256_cert_fingerprints": ["0D:88:98:E8:60:82:B9:30:B1:6E:91:FC:C1:AB:22:28:F0:E0:47:CB:E5:62:63:35:AD:83:DA:2B:73:8F:DA:AE"]
+  }
+}]
