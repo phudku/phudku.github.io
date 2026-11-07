@@ -3,6 +3,9 @@
   "target": {
     "namespace": "android_app",
     "package_name": "com.phudku.game",
-    "sha256_cert_fingerprints": ["0D:88:98:E8:60:82:B9:30:B1:6E:91:FC:C1:AB:22:28:F0:E0:47:CB:E5:62:63:35:AD:83:DA:2B:73:8F:DA:AE"]
+    "sha256_cert_fingerprints": [
+      "11:E7:08:03:FB:3D:AD:49:CF:4E:00:D2:5F:06:A7:E0:59:EF:C9:C8:1B:2F:AB:31:37:4C:60:D8:59:31:6E:07",
+      "0D:88:98:E8:60:82:B9:30:B1:6E:91:FC:C1:AB:22:28:F0:E0:47:CB:E5:62:63:35:AD:83:DA:2B:73:8F:DA:AE"
+    ]
   }
 }]
