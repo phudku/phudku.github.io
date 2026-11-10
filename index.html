@@ -199,7 +199,7 @@ let pads=[],cur=0,camX=0,camTarget=0;
 let charge=0,charging=false,jumps=0;
 let frog={x:0,y:0,squash:0,mood:'idle',blink:0,fly:null,face:1,hopAnim:0};
 const parts=[],ripples=[],deco=[];
-let hinted=store('frog_hinted')==='1',eyeK=1,eyePop=0,padsN=0,peek=[],peekCD=2,practice=parseInt(store('frog_practice')||'0',10)||0,missRow=0,helpJ=0,flies=[],bflies=[],fish=null,swim=[],cheerT=0,sadT=0,cheerWord='वाह!',cheerPts=0,birds=[],outfit=0,good=0;
+let hinted=store('frog_hinted')==='1',eyeK=1,eyePop=0,padsN=0,padsF=0,peek=[],peekCD=2,practice=parseInt(store('frog_practice')||'0',10)||0,missRow=0,helpJ=0,flies=[],bflies=[],fish=null,swim=[],cheerT=0,sadT=0,cheerWord='वाह!',cheerPts=0,birds=[],outfit=0,good=0;
 const CLOUDS=[{x0:.05,y:.13,sz:1.1,v:16,par:.05,c:'#ffd6ec'},{x0:.55,y:.22,sz:.8,v:-18,par:.03,c:'#e2d6ff'},{x0:.32,y:.36,sz:.65,v:-12,par:.02,c:'#fff0b8'},{x0:.8,y:.09,sz:.75,v:10,par:.04,c:'#cdeeff'},{x0:.95,y:.3,sz:1,v:-14,par:.03,c:'#ffffff'},{x0:.18,y:.5,sz:.55,v:20,par:.06,c:'#ffd8c4'},{x0:.66,y:.44,sz:.7,v:13,par:.05,c:'#d6ffe4'}];
 const BIRDS=[{b:'#2ee05a',w:'#14a83c',k:'#ff3d3d',t:'#1fb4ff'},{b:'#1fb4ff',w:'#0d7fd0',k:'#222222',t:'#0d7fd0',bl:'#ff8a1f'},{b:'#ff6fb0',w:'#ff2e8a',k:'#ffb21f',t:'#ff2e8a'},{b:'#ffd21f',w:'#ff8a1f',k:'#ff6a1f',t:'#ff8a1f'},{b:'#ffffff',w:'#c8d8ff',k:'#ff8a1f',t:'#c8d8ff'}];
 let SP_last=0,goldRow=0,rbDance=0;let LANG=(store('frog_lang')==='en')?'en':'hi';
@@ -267,7 +267,7 @@ function pop(html){const d=document.createElement('div');d.className='pop';d.inn
 
 function reset(){
   bestAtStart=best;flagIdx=parseInt(store('frog_bestpads')||'0',10)||0;recordBroken=false;lastK=0;rescuing=false;lives=3;lastH=0;lostHeart=false;
-  score=0;perfects=0;streak=0;jumps=0;pads=[];cur=0;deco.length=0;parts.length=0;ripples.length=0;padsN=0;eyePop=0;eyeK=1;flies=[];bflies=[];fish=null;swim=[];uw=[];dfl=[];sqs=[];cheerT=0;sadT=0;birds=[];outfit=0;good=0;
+  score=0;perfects=0;streak=0;jumps=0;pads=[];cur=0;deco.length=0;parts.length=0;ripples.length=0;padsN=0;padsF=0;eyePop=0;eyeK=1;flies=[];bflies=[];fish=null;swim=[];uw=[];dfl=[];sqs=[];cheerT=0;sadT=0;birds=[];outfit=0;good=0;
   pads.push({bx:0,r:52*s,amp:0,spd:0,ph:0,rot:0,flower:false,fc:'#fff',pg:0,sink:0});ensurePads();
   frog={x:0,y:0,squash:0,mood:'idle',blink:2,fly:null,face:1,hopAnim:0};
   camX=-frogX0;camTarget=camX;camFlow=camX;charge=0;charging=false;hud();
@@ -490,7 +490,7 @@ function drawSky(P,n){
   const sy=waterY*P.sy,sx=W*0.78,sr=P.sr;
   if(P.ray>.02){ctx.save();ctx.translate(sx,sy);ctx.rotate(clock*.05);for(let j=0;j<12;j++){ctx.rotate(Math.PI/6);ctx.fillStyle='rgba(255,230,140,'+(.16*P.ray)+')';ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(Math.max(W,H),-26*s);ctx.lineTo(Math.max(W,H),26*s);ctx.closePath();ctx.fill()}ctx.restore();
     const gl=ctx.createRadialGradient(sx,sy,10*s,sx,sy,180*s);gl.addColorStop(0,'rgba(255,220,120,'+(.55*P.ray)+')');gl.addColorStop(1,'rgba(255,200,120,0)');ctx.fillStyle=gl;ctx.fillRect(sx-180*s,sy-180*s,360*s,360*s)}
-  {const nt=P.night>0.5,base=nt?'rgb(255,245,200)':String(P.sun),ca=x=>base.replace('rgb(','rgba(').replace(')',','+x+')'),mg=ctx.createRadialGradient(sx,sy,(nt?20:24)*s*sr,sx,sy,(nt?72:80)*s*sr);mg.addColorStop(0,ca(nt?.28:.45));mg.addColorStop(.45,ca(nt?.12:.18));mg.addColorStop(1,ca(0));ctx.fillStyle=mg;ctx.fillRect(sx-82*s*sr,sy-82*s*sr,164*s*sr,164*s*sr);ctx.fillStyle=P.sun}
+  {const nt=P.night>0.5,base=nt?'rgb(255,245,200)':'rgb(255,238,150)',ca=x=>base.replace('rgb(','rgba(').replace(')',','+x+')'),mg=ctx.createRadialGradient(sx,sy,(nt?20:24)*s*sr,sx,sy,(nt?72:100)*s*sr);mg.addColorStop(0,ca(nt?.32:.8));mg.addColorStop(.45,ca(nt?.14:.38));mg.addColorStop(1,ca(0));ctx.fillStyle=mg;ctx.fillRect(sx-102*s*sr,sy-102*s*sr,204*s*sr,204*s*sr);ctx.fillStyle=P.sun}
   if(P.night>0.5){ctx.save();ctx.beginPath();ctx.rect(sx-90*s,sy-90*s,180*s,180*s);ctx.moveTo(sx+35*s,sy-6*s);ctx.arc(sx+11*s,sy-6*s,24*s,0,Math.PI*2,true);ctx.closePath();ctx.clip('evenodd');ctx.beginPath();ctx.arc(sx,sy,28*s*sr,0,7);ctx.fill();ctx.restore()}
   else{ctx.beginPath();ctx.arc(sx,sy,28*s*sr,0,7);ctx.fill()}
   if(P.ray>.05){const sg=ctx.createRadialGradient(sx,sy,0,sx,sy,28*s*sr);sg.addColorStop(0,'rgba(255,250,215,'+(.6*P.ray)+')');sg.addColorStop(1,'rgba(255,250,215,0)');ctx.fillStyle=sg;ctx.beginPath();ctx.arc(sx,sy,28*s*sr,0,7);ctx.fill()}
@@ -649,7 +649,7 @@ function drawFallen(x,t){
 }
 
 function update(dt){
-  clock+=dt;stateT+=dt;
+  clock+=dt;stateT+=dt;if(padsF>padsN||padsN-padsF>30)padsF=padsN;else padsF+=(padsN-padsF)*Math.min(1,dt*1.2);
   mf+=(((charging||state==='fly')?0:1)-mf)*Math.min(1,dt*9);padT+=dt*mf;
   if(state==='over')return;
   ensurePads();
@@ -677,7 +677,7 @@ function update(dt){
     camX+=(camFlow-camX)*Math.min(1,dt*(state==='fly'?3:4))}
   else{camTarget=frog.x-frogX0;camX+=(camTarget-camX)*Math.min(1,dt*(state==='fly'?3:5));camFlow=camX}
   // fireflies at night
-  const P=palette(padsN);
+  const P=palette(padsF);
   if(P.night>.3&&flies.length<14&&Math.random()<.1)flies.push({x:camX+rnd(0,W),y:rnd(waterY*.45,waterY+40*s),ph:rnd(0,6),life:rnd(4,8)});
   if(P.night<.5&&bflies.length<5&&Math.random()<.025){const d=Math.random()<.55?1:-1;bflies.push({d,x:d>0?camX-20:camX+W+20,y:rnd(waterY*.3,waterY-20*s),c:FLOWERS[Math.floor(Math.random()*FLOWERS.length)],ph:rnd(0,6),v:(d>0?rnd(55,80):rnd(25,45))*s})}
   for(let i=bflies.length-1;i>=0;i--){const b=bflies[i];b.x+=b.d*b.v*dt;b.y+=Math.sin(clock*2+b.ph)*20*s*dt;if(b.x<camX-60||b.x>camX+W+60)bflies.splice(i,1)}
@@ -722,7 +722,7 @@ function update(dt){
   for(let i=flies.length-1;i>=0;i--){const f=flies[i];f.life-=dt;f.x+=Math.sin(clock+f.ph)*10*dt;f.y+=Math.cos(clock*1.3+f.ph)*8*dt;if(f.life<=0)flies.splice(i,1)}
 }
 function draw(){
-  const P=palette(padsN);
+  const P=palette(padsF);
   drawSky(P);drawBirds(P);drawWater(P);
   uw.forEach(f=>{const k=f.sz*s,x=f.x-camX;ctx.save();ctx.translate(x,f.y);ctx.scale(f.d,1);ctx.globalAlpha=.5;ctx.fillStyle=f.c;
     ctx.beginPath();ctx.ellipse(0,0,11*k,5*k,0,0,7);ctx.fill();ctx.save();ctx.translate(-9*k,0);ctx.rotate(Math.sin(clock*9+f.ph)*.45);ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(-8*k,-5*k);ctx.lineTo(-8*k,5*k);ctx.closePath();ctx.fill();ctx.restore();
@@ -1044,7 +1044,7 @@ try{drawLogo(0)}catch(e){}
 $('startOv').addEventListener('pointerdown',()=>ensureAudio());
 requestAnimationFrame(frame);
 setTimeout(()=>$('startBtn').focus(),100);
-{const VER='v13';let ct=0,ctT=0;const ce=$('credit');if(ce)ce.addEventListener('click',()=>{const n=performance.now();ct=n-ctT<700?ct+1:1;ctT=n;if(ct>=5){ct=0;const o=ce.textContent;ce.textContent=o+' · '+VER;setTimeout(()=>{ce.textContent=T('credit')},2500)}})}
+{const VER='v14';let ct=0,ctT=0;const ce=$('credit');if(ce)ce.addEventListener('click',()=>{const n=performance.now();ct=n-ctT<700?ct+1:1;ctT=n;if(ct>=5){ct=0;const o=ce.textContent;ce.textContent=o+' · '+VER;setTimeout(()=>{ce.textContent=T('credit')},2500)}})}
 })();
 </script>
 
