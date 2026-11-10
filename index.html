@@ -2,7 +2,7 @@
 <html lang="hi">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#3a2fd8">
 <meta name="mobile-web-app-capable" content="yes">
@@ -26,7 +26,7 @@
   --body:"Mukta","Noto Sans Devanagari",system-ui,sans-serif;
   color-scheme:light;
 }
-html,body{height:100%}
+html,body{height:100%;touch-action:manipulation;overscroll-behavior:none}
 body{background:#8fd3f4;color:var(--ink);font-family:var(--body);overflow:hidden;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 #app{position:relative;height:100%;width:100%;margin:0 auto;overflow:hidden}
 #stage{position:absolute;inset:0;touch-action:none;cursor:pointer}
@@ -39,7 +39,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 #app.hudmin .rec{margin-top:-2px}#app.hudmin #recTxt{color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6);font-size:13px}
 #app.hudmin .val{color:#fff;text-shadow:0 2px 3px rgba(0,0,0,.45)}
 #app.hudmin .right{opacity:.35}
-.hud{position:absolute;top:calc(8px + env(safe-area-inset-top,0px));left:0;right:0;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));pointer-events:none;z-index:3}
+.hud{position:absolute;top:calc(16px + env(safe-area-inset-top,0px));left:0;right:0;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(26px,env(safe-area-inset-right,0px));pointer-events:none;z-index:3}
 .scorebox{background:var(--paper);border-radius:18px;padding:4px 12px 7px;box-shadow:0 3px 0 #0002;display:flex;flex-direction:column;align-items:stretch;width:fit-content}
 .chip{width:fit-content;display:flex;align-items:baseline;gap:8px}
 .chip .lbl{font-size:13px;color:#4c6b5e;font-weight:600}
@@ -1045,7 +1045,7 @@ try{drawLogo(0)}catch(e){}
 $('startOv').addEventListener('pointerdown',()=>ensureAudio());
 requestAnimationFrame(frame);
 setTimeout(()=>$('startBtn').focus(),100);
-{const VER='v18';let taps=[];const card=document.querySelector('#startOv .card'),ce=document.querySelector('#startOv h1');if(card)card.addEventListener('pointerdown',e=>{if(e.target.closest('button,a'))return;const n=performance.now();taps=taps.filter(t=>n-t<2500);taps.push(n);if(taps.length>=7){taps=[];if(ce.querySelector('.verTag'))return;const v=document.createElement('small');v.className='verTag';v.textContent=' '+VER;v.style.cssText='font-size:14px;color:#7a6;font-family:sans-serif';ce.appendChild(v);setTimeout(()=>v.remove(),3000)}})}
+{const VER='v19';let taps=[];const card=document.querySelector('#startOv .card'),ce=document.querySelector('#startOv h1');if(card)card.addEventListener('pointerdown',e=>{if(e.target.closest('button,a'))return;const n=performance.now();taps=taps.filter(t=>n-t<2500);taps.push(n);if(taps.length>=7){taps=[];if(ce.querySelector('.verTag'))return;const v=document.createElement('small');v.className='verTag';v.textContent=' '+VER;v.style.cssText='font-size:14px;color:#7a6;font-family:sans-serif';ce.appendChild(v);setTimeout(()=>v.remove(),3000)}})}
 })();
 </script>
 
