@@ -1045,7 +1045,7 @@ try{drawLogo(0)}catch(e){}
 $('startOv').addEventListener('pointerdown',()=>ensureAudio());
 requestAnimationFrame(frame);
 setTimeout(()=>$('startBtn').focus(),100);
-{const VER='v17';let ct=0,ctT=0;const ce=document.querySelector('#startOv h1');if(ce)ce.addEventListener('click',()=>{const n=performance.now();ct=n-ctT<700?ct+1:1;ctT=n;if(ct>=5){ct=0;if(ce.querySelector('.verTag'))return;const v=document.createElement('small');v.className='verTag';v.textContent=' '+VER;v.style.cssText='font-size:14px;color:#7a6;font-family:sans-serif';ce.appendChild(v);setTimeout(()=>v.remove(),2500)}})}
+{const VER='v18';let taps=[];const card=document.querySelector('#startOv .card'),ce=document.querySelector('#startOv h1');if(card)card.addEventListener('pointerdown',e=>{if(e.target.closest('button,a'))return;const n=performance.now();taps=taps.filter(t=>n-t<2500);taps.push(n);if(taps.length>=7){taps=[];if(ce.querySelector('.verTag'))return;const v=document.createElement('small');v.className='verTag';v.textContent=' '+VER;v.style.cssText='font-size:14px;color:#7a6;font-family:sans-serif';ce.appendChild(v);setTimeout(()=>v.remove(),3000)}})}
 })();
 </script>
 
