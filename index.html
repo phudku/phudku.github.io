@@ -490,7 +490,7 @@ function drawSky(P,n){
   const sy=waterY*P.sy,sx=W*0.78,sr=P.sr;
   if(P.ray>.02){ctx.save();ctx.translate(sx,sy);ctx.rotate(clock*.05);for(let j=0;j<12;j++){ctx.rotate(Math.PI/6);ctx.fillStyle='rgba(255,230,140,'+(.16*P.ray)+')';ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(Math.max(W,H),-26*s);ctx.lineTo(Math.max(W,H),26*s);ctx.closePath();ctx.fill()}ctx.restore();
     const gl=ctx.createRadialGradient(sx,sy,10*s,sx,sy,180*s);gl.addColorStop(0,'rgba(255,220,120,'+(.55*P.ray)+')');gl.addColorStop(1,'rgba(255,200,120,0)');ctx.fillStyle=gl;ctx.fillRect(sx-180*s,sy-180*s,360*s,360*s)}
-  ctx.fillStyle=P.sun;if(P.night>0.5){const mg=ctx.createRadialGradient(sx,sy,20*s*sr,sx,sy,72*s*sr);mg.addColorStop(0,'rgba(255,245,200,.28)');mg.addColorStop(1,'rgba(255,245,200,0)');ctx.fillStyle=mg;ctx.fillRect(sx-80*s,sy-80*s,160*s,160*s);ctx.fillStyle=P.sun}else{ctx.globalAlpha=.3;ctx.beginPath();ctx.arc(sx,sy,46*s*sr,0,7);ctx.fill();ctx.globalAlpha=1}
+  {const nt=P.night>0.5,base=nt?'rgb(255,245,200)':String(P.sun),ca=x=>base.replace('rgb(','rgba(').replace(')',','+x+')'),mg=ctx.createRadialGradient(sx,sy,(nt?20:24)*s*sr,sx,sy,(nt?72:80)*s*sr);mg.addColorStop(0,ca(nt?.28:.45));mg.addColorStop(.45,ca(nt?.12:.18));mg.addColorStop(1,ca(0));ctx.fillStyle=mg;ctx.fillRect(sx-82*s*sr,sy-82*s*sr,164*s*sr,164*s*sr);ctx.fillStyle=P.sun}
   if(P.night>0.5){ctx.save();ctx.beginPath();ctx.rect(sx-90*s,sy-90*s,180*s,180*s);ctx.moveTo(sx+35*s,sy-6*s);ctx.arc(sx+11*s,sy-6*s,24*s,0,Math.PI*2,true);ctx.closePath();ctx.clip('evenodd');ctx.beginPath();ctx.arc(sx,sy,28*s*sr,0,7);ctx.fill();ctx.restore()}
   else{ctx.beginPath();ctx.arc(sx,sy,28*s*sr,0,7);ctx.fill()}
   if(P.ray>.05){const sg=ctx.createRadialGradient(sx,sy,0,sx,sy,28*s*sr);sg.addColorStop(0,'rgba(255,250,215,'+(.6*P.ray)+')');sg.addColorStop(1,'rgba(255,250,215,0)');ctx.fillStyle=sg;ctx.beginPath();ctx.arc(sx,sy,28*s*sr,0,7);ctx.fill()}
@@ -1044,7 +1044,7 @@ try{drawLogo(0)}catch(e){}
 $('startOv').addEventListener('pointerdown',()=>ensureAudio());
 requestAnimationFrame(frame);
 setTimeout(()=>$('startBtn').focus(),100);
-{const VER='v12';let ct=0,ctT=0;const ce=$('credit');if(ce)ce.addEventListener('click',()=>{const n=performance.now();ct=n-ctT<700?ct+1:1;ctT=n;if(ct>=5){ct=0;const o=ce.textContent;ce.textContent=o+' · '+VER;setTimeout(()=>{ce.textContent=T('credit')},2500)}})}
+{const VER='v13';let ct=0,ctT=0;const ce=$('credit');if(ce)ce.addEventListener('click',()=>{const n=performance.now();ct=n-ctT<700?ct+1:1;ctT=n;if(ct>=5){ct=0;const o=ce.textContent;ce.textContent=o+' · '+VER;setTimeout(()=>{ce.textContent=T('credit')},2500)}})}
 })();
 </script>
 
